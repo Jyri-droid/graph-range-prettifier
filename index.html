@@ -45,7 +45,7 @@ text.innerHTML += "<br>Power by ten of max value is " + tensDataMax + " and its 
 var rangeMax = Math.ceil(dataMax / tensDataMax) * tensDataMax;
 var rangeMin = Math.floor(dataMin / tensDataMax) * tensDataMax;
 
-text.innerHTML += "<br>Next pretty number to the max value would be " + rangeMax + " and to the min value it would be " + rangeMin;
+text.innerHTML += "<br>Next pretty number to the max value would be " + rangeMax + " and to the min value it would be " + rangeMin + ", and between them the range is " + rangeMax - rangeMin;
 
 var range = ((rangeMax - rangeMin) / tensDataMax);
 var divider;
