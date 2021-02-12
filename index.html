@@ -6,8 +6,6 @@
 <link rel="stylesheet" type="text/css" href="matchmadeUiStyle.css" media="screen"/>    
 <style>
 
-
-
 </style>
 </head>
 
@@ -16,62 +14,80 @@
 <!-- HTML -->
 
 <div id="text" ></div>
+<div><button type="button" onclick="prettyRange(createRandomDataSet())">Randomize</button></div>
 
 <!-- JS -->
 <script>
 
-/* Find highest and lowest number of range */
-/* var data = [14388, 75229, 98765, 138456]; */
-/*var data = [98, 120, 140, 138];*/
-var data = [1438, 7522, 9876, 13845];
-var dataMax = Math.max(...data);
-var dataMin = Math.min(...data);
 
-var text = document.getElementById("text");
+function createRandomDataSet() {
+    dataSet = [];
+    for (i = 0; i < (Math.floor(Math.random() * 20) + 1);i++) {
+        dataSet[i]=Math.floor(Math.random() * 10000000);
+    }
+    return dataSet;
+}
 
-text.innerHTML = "The data set is " + data;
-text.innerHTML += "<br>The max value is " + dataMax + " and min value is " + dataMin;
+function prettyRange(data) {
 
-/* Which power of ten? */
-var digitCountDataMax = dataMax.toString().length;
-var tensDataMax = ["1"];
-for (i = 0; i < (digitCountDataMax - 2); i++) {
-    tensDataMax += "0";
-};
+    /* Find highest and lowest number in data */
+    var dataMax = Math.max(...data);
+    var dataMin = Math.min(...data);
 
-text.innerHTML += "<br>Power by ten of max value is " + tensDataMax + " and its root is " + Math.floor(dataMax/tensDataMax);
+    var text = document.getElementById("text");
 
-/* Find next pretty number in range */
-var rangeMax = Math.ceil(dataMax / tensDataMax) * tensDataMax;
-var rangeMin = Math.floor(dataMin / tensDataMax) * tensDataMax;
+    text.innerHTML = "If the data set is " + data;
+    text.innerHTML += "<br>The max value is " + dataMax + " and min value is " + dataMin;
 
-text.innerHTML += "<br>Next pretty number to the max value would be " + rangeMax + " and to the min value it would be " + rangeMin + ", and between them the range is " + (rangeMax - rangeMin);
+    /* Which power of ten is the highest number? */
+    var digitCountDataMax = dataMax.toString().length;
+    var tensDataMax = ["1"];
+    for (i = 0; i < (digitCountDataMax - 2); i++) {
+        tensDataMax += "0";
+    };
 
-var range = ((rangeMax - rangeMin) / tensDataMax);
-var divider;
-var rangeFinal;
-function findDivider() {
-    for (i = 0; i < 3; i++) {
-        var rangeFluid = range + i;
-        for (j = 3; j < 6; j++) {
-            text.innerHTML += "<br> The root of the range is now " + rangeFluid + " and it is divided by " + j + " and the value is " + (rangeFluid / j);
-            if (rangeFluid / j === Math.floor(rangeFluid / j)) {
-                divider = j;
-                rangeFinal = rangeFluid;
-                return;
+    text.innerHTML += "<br>Power by ten of max value is " + tensDataMax + " and its root is " + Math.floor(dataMax/tensDataMax);
+
+    /* Find next pretty number in range */
+    var rangeMax = Math.ceil(dataMax / tensDataMax) * tensDataMax;
+    var rangeMin = Math.floor(dataMin / tensDataMax) * tensDataMax;
+
+    text.innerHTML += "<br>Next pretty number to the max value would be " + rangeMax + " and to the min value it would be " + rangeMin + ", and between them the range is " + (rangeMax - rangeMin);
+
+    var range = ((rangeMax - rangeMin) / tensDataMax);
+    var divider;
+    var rangeFinal;
+
+    function findDivider() {
+        for (i = 0; i < 3; i++) {
+            var rangeFluid = range + i;
+            for (j = 3; j < 6; j++) {
+                text.innerHTML += "<br> The root of the range is now " + rangeFluid + " and it is divided by " + j + " and the value is " + (rangeFluid / j);
+                if (rangeFluid / j === Math.floor(rangeFluid / j)) {
+                    divider = j;
+                    rangeFinal = rangeFluid;
+                    return;
+                }
             }
         }
     }
+
+    findDivider();
+    text.innerHTML += "<br> The quotient is a natural number!!! Now we have a divider and it is " + divider;
+
+    var ticks=[];
+    for (i = 0; i < divider + 1; i++) {
+        ticks[i] = rangeMin + rangeFinal / divider * i * tensDataMax;
+        text.innerHTML += "<br> Pretty number " + (i + 1) + " = <strong>" + ticks[i] + "</strong>";
+    }
+
+    text.innerHTML += "<br><br>"
+
+    return ticks;
 }
 
-findDivider();
-text.innerHTML += "<br> The quotient is a natural number!!! Now we have a divider and it is " + divider;
+prettyRange(createRandomDataSet());
 
-var ticks=[];
-for (i = 0; i < divider + 1; i++) {
-    ticks[i] = rangeMin + rangeFinal / divider * i * tensDataMax;
-    text.innerHTML += "<br> Pretty number " + (i + 1) + " = <strong>" + ticks[i] + "</strong>";
-}
 
 </script>
 </body>
